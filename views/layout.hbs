@@ -1,0 +1,25 @@
+{{!-- represents a master template - wrapper for every page --}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <!-- Begin NavBar-->
+    <nav class="navbar navbar-default">
+        <p class="navbar-text"><a href="/howTo" class="navbar-link">Como é feito o ranking</a></p>
+    </nav>
+    <!-- End NavBar-->
+    {{{body}}}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/script.js"></script>
+</body>
+
+</html>
