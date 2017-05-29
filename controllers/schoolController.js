@@ -24,4 +24,5 @@ SchoolController.getSchoolsByName = async(req, res) => {
         res.render(500, 'Internal error');
     }
 }
+
 module.exports = SchoolController;
