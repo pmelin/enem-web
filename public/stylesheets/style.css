@@ -1,11 +1,12 @@
 body {
     padding: 50px;
-    font: 14px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    font: 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
 }
 
 a {
     color: #00B7FF;
 }
+
 
 /*Search funcionality */
 
@@ -22,19 +23,11 @@ a {
     zoom: 1;
 }
 
-/* Form wrapper styling */
-
-.form-wrapper {
-    width: 33%;
-    padding: 10px;
-    border-radius: 10px;
-}
-
 /* Form text input */
 
 .form-wrapper input {
-    width: 250px;
-    padding: 10px 5px;
+    width: 200px;
+    padding: 8px 3px;
     float: left;
     font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
     border: 0;
@@ -75,7 +68,7 @@ a {
     border: 0;
     padding: 0;
     cursor: pointer;
-    height: 37px;
+    height: 33px;
     width: 110px;
     font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
     color: #fff;
@@ -98,7 +91,7 @@ a {
     /* left arrow */
     content: '';
     position: absolute;
-    border-width: 8px 8px 8px 0;
+    border-width: 5px 8px 8px 0;
     border-style: solid solid solid none;
     border-color: transparent #d83c3c transparent;
     top: 12px;
@@ -117,4 +110,8 @@ a {
     /* remove extra button spacing for Mozilla Firefox */
     border: 0;
     padding: 0;
+}
+/* Filters - select */
+.mainOption {
+    font: 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
 }

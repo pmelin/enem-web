@@ -10,7 +10,10 @@ router.get('/howTo', function(req, res) {
     res.render('howTo');
 });
 
-/* GET school name result. */
+/* POST school name result. */
 router.post('/searchSchoolsByName', school.getSchoolsByName);
+
+/* POST school filters. */
+router.post('/filters', school.getSchoolsByAdminAndUf);
 
 module.exports = router;

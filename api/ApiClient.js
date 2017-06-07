@@ -1,5 +1,6 @@
 const Promise = require("bluebird");
 let request = Promise.promisify(require("request"));
+const querystring = require('querystring');
 
 /**
  * Class that consumes services related to school.
@@ -20,6 +21,22 @@ ApiClient.getSchools = async function(page) {
 
 ApiClient.getSchoolsByName = async function(name) {
     let response = await request({json: true, method: 'GET', url: `http://localhost:8080/schools/name/${name}`});
+    if (response.statusCode != 200) {
+        throw new Error(`Returned status code ${response.statusCode}`);
+    }
+    return response.body;
+}
+
+ApiClient.getSchoolsByAdminAndUf = async function(page, adm, uf) {
+
+    var filters = querystring.stringify({adm: adm, uf: uf});
+
+    if (isNaN(page)) {
+        page = 1;
+    }
+
+    let url = `http://localhost:8080/schools/${page}?${filters}`;
+    let response = await request({json: true, method: 'GET', url: url});
     if (response.statusCode != 200) {
         throw new Error(`Returned status code ${response.statusCode}`);
     }

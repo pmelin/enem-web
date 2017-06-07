@@ -6,10 +6,56 @@
     </div>
     <!-- Begin filter area -->
     <div class="row">
-        <form method="post" action="/searchSchoolsByName" class="form-wrapper cf">
-            <input name="name" type="text" placeholder="PESQUISAR POR ESCOLA" required>
-            <button type="submit">Pesquisar</button>
-        </form>
+        <div>
+            <form method="post" action="/filters" enctype="application/x-www-form-urlencoded">
+                <div class="form-group col-md-2">
+                    <select class="form-control mainOption" name="adm">
+                    <option></option>
+                    <option value="PUB">Públicas</option>
+                    <option value="PRI">Privadas</option>
+            </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <select class="form-control mainOption" name="uf">
+                    <option></option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minhas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                  </select>
+                </div>
+                <button type="submit" type="button">Pesquisar</button>
+            </form>
+        </div>
+        <div class="form-group col-md-8">
+            <form method="post" action="/searchSchoolsByName" class="form-wrapper cf">
+                <input name="name" type="text" placeholder="PESQUISAR POR ESCOLA" required>
+                <button type="submit">Pesquisar</button>
+            </form>
+        </div>
     </div>
     <!-- End filter area -->
     <div class="row">
@@ -29,7 +75,7 @@
                             <td></td>
                             <td>{{name}}</td>
                             <td>{{uf}}</td>
-                            <td>{{average}}</td>
+                            <td>{{ roundAverage average}}</td>
                         </tr>
                     {{/each}}
                 </tbody>

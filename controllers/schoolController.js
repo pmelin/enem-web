@@ -12,7 +12,7 @@ SchoolController.getHome = async(req, res) => {
         res.render('index', {schools: schools});
     } catch (err) {
         console.error(err);
-        res.render(500, 'Internal error');
+        res.send(500, 'Internal error');
     }
 }
 
@@ -21,7 +21,17 @@ SchoolController.getSchoolsByName = async(req, res) => {
         var schools = await apiClient.getSchoolsByName(req.body.name);
         res.render('index', {schools: schools});
     } catch (err) {
-        res.render(500, 'Internal error');
+        res.send(500, 'Internal error');
+    }
+}
+
+SchoolController.getSchoolsByAdminAndUf = async(req, res) => {
+    try {
+        var filteredSchools = await apiClient.getSchoolsByAdminAndUf(req.query.page, req.body.adm, req.body.uf);
+        res.render('index', {schools: filteredSchools});
+    } catch (err) {
+        console.error(err);
+        res.send(500, 'Internal error');
     }
 }
 
