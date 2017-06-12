@@ -7,13 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('enem-app:server');
 var http = require('http');
-var hbs = require('hbs');
-
-
-/**
- * Register helpers
- */
-hbs.registerHelper('roundAverage', function(average){ return average.toFixed(2)});
 
 /**
  * Get port from environment and store in Express.

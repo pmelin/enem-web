@@ -28,11 +28,20 @@ SchoolController.getSchoolsByName = async(req, res) => {
 SchoolController.getSchoolsByAdminAndUf = async(req, res) => {
     try {
         var filteredSchools = await apiClient.getSchoolsByAdminAndUf(req.query.page, req.body.adm, req.body.uf);
-        res.render('index', {schools: filteredSchools});
+        res.json(200, filteredSchools);
     } catch (err) {
         console.error(err);
         res.send(500, 'Internal error');
     }
 }
 
+SchoolController.getMunicipalities = async(req, res) => {
+    try {
+        var municipalities = await apiClient.getMunicipalities(req.params.state);
+        res.json(200, municipalities);
+    } catch (err) {
+        console.error(err);
+        res.send(500, 'Internal error');
+    }
+}
 module.exports = SchoolController;

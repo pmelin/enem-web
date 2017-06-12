@@ -15,5 +15,11 @@ router.post('/searchSchoolsByName', school.getSchoolsByName);
 
 /* POST school filters. */
 router.post('/filters', school.getSchoolsByAdminAndUf);
+router.get('/filters', function(req, res) {
+    res.render('index');
+});
+
+/* GET state municipalities. */
+router.get('/municipalities/:state', school.getMunicipalities);
 
 module.exports = router;

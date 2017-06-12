@@ -7,47 +7,52 @@
     <!-- Begin filter area -->
     <div class="row">
         <div>
-            <form method="post" action="/filters" enctype="application/x-www-form-urlencoded">
+            <form id="filterForm">
                 <div class="form-group col-md-2">
                     <select class="form-control mainOption" name="adm">
-                    <option></option>
-                    <option value="PUB">Públicas</option>
-                    <option value="PRI">Privadas</option>
+                    <option value="">TODOS OS TIPOS</option>
+                    <option value="PUB">PÚBLICAS</option>
+                    <option value="PRI">PRIVADAS</option>
             </select>
                 </div>
                 <div class="form-group col-md-2">
-                    <select class="form-control mainOption" name="uf">
-                    <option></option>
-                    <option value="AC">Acre</option>
-                    <option value="AL">Alagoas</option>
-                    <option value="AP">Amapá</option>
-                    <option value="AM">Amazonas</option>
-                    <option value="BA">Bahia</option>
-                    <option value="CE">Ceará</option>
-                    <option value="DF">Distrito Federal</option>
-                    <option value="ES">Espírito Santo</option>
-                    <option value="GO">Goiás</option>
-                    <option value="MA">Maranhão</option>
-                    <option value="MT">Mato Grosso</option>
-                    <option value="MS">Mato Grosso do Sul</option>
-                    <option value="MG">Minhas Gerais</option>
-                    <option value="PA">Pará</option>
-                    <option value="PB">Paraíba</option>
-                    <option value="PR">Paraná</option>
-                    <option value="PE">Pernambuco</option>
-                    <option value="PI">Piauí</option>
-                    <option value="RJ">Rio de Janeiro</option>
-                    <option value="RN">Rio Grande do Norte</option>
-                    <option value="RS">Rio Grande do Sul</option>
-                    <option value="RO">Rondônia</option>
-                    <option value="RR">Roraima</option>
-                    <option value="SC">Santa Catarina</option>
-                    <option value="SP">São Paulo</option>
-                    <option value="SE">Sergipe</option>
-                    <option value="TO">Tocantins</option>
+                    <select class="form-control mainOption" name="uf" class="uf" id="uf">
+                    <option value="">TODO O PAÍS</option>
+                    <option value="AC">ACRE</option>
+                    <option value="AL">ALAGOAS</option>
+                    <option value="AP">AMAPÁ</option>
+                    <option value="AM">AMAZONAS</option>
+                    <option value="BA">BAHIA</option>
+                    <option value="CE">CEARÁ</option>
+                    <option value="DF">DISTRITO FEDERAL</option>
+                    <option value="ES">ESPÍRITO SANTO</option>
+                    <option value="GO">GOIÁS</option>
+                    <option value="MA">MARANHÃO</option>
+                    <option value="MT">MATO GROSSO</option>
+                    <option value="MS">MATO GROSSO DO SUL</option>
+                    <option value="MG">MINAS GERAIS</option>
+                    <option value="PA">PARÁ</option>
+                    <option value="PB">PARAÍBA</option>
+                    <option value="PR">PARANÁ</option>
+                    <option value="PE">PERNAMBUCO</option>
+                    <option value="PI">PIAUÍ</option>
+                    <option value="RJ">RIO DE JANEIRO</option>
+                    <option value="RN">RIO GRANDE DO NORTE</option>
+                    <option value="RS">RIO GRANDE DO SUL</option>
+                    <option value="RO">RONDÔNIA</option>
+                    <option value="RR">RORAIMA</option>
+                    <option value="SC">SANTA CATARINA</option>
+                    <option value="SP">SÃO PAULO</option>
+                    <option value="SE">SERGIPE</option>
+                    <option value="TO">TOCANTINS</option>
                   </select>
                 </div>
-                <button type="submit" type="button">Pesquisar</button>
+                <div class="form-group col-md-2">
+                    <select class="form-control mainOption" name="municipality" class="municipality" id="municipality">
+                    <option></option>
+                  </select>
+                </div>
+                <button type="button" onclick="filterSchools()" type="button">PESQUISAR</button>
             </form>
         </div>
         <div class="form-group col-md-8">
@@ -69,15 +74,7 @@
                         <th class="sorting_asc">Média</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {{#each schools}}
-                        <tr id='{{code}}'>
-                            <td></td>
-                            <td>{{name}}</td>
-                            <td>{{uf}}</td>
-                            <td>{{ roundAverage average}}</td>
-                        </tr>
-                    {{/each}}
+                <tbody id="schoolList">
                 </tbody>
             </table>
             <div class="clearfix"></div>
@@ -93,3 +90,45 @@
         </div>
     </div>
 </div>
+<script>
+    function filterSchools() {
+        $('#schoolList').html('');
+        $.ajax({
+            type: "POST",
+            url: '/filters',
+            data: $("#filterForm").serialize(), // serializes the form's elements.
+            success: function(filteredSchools) {
+                for (school of filteredSchools) {
+                    $('#schoolList').append('<tr><td></td><td>' + school.name + '</td><td>' + school.uf + '</td><td>' + roundAverage(school.average) + '</td></tr>');
+                }
+            }
+        });
+    }
+
+    function roundAverage(average) {
+
+        return average.toFixed(2);
+    }
+
+    $(document).ready(function() {
+        filterSchools();
+
+        $('#uf').change(function() {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+
+            $('#municipality').html("");
+            //tratar se usuario escolher em branco
+            $.ajax({
+                    method: "GET",
+                    url: "/municipalities/" + valueSelected,
+                })
+                .done(function(municipalities) {
+                    $('#municipality').append('<option>' + "" + '</option>');
+                    for (municipality of municipalities) {
+                        $('#municipality').append('<option>' + municipality + '</option>');
+                    }
+                });
+        });
+    });
+</script>

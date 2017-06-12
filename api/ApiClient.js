@@ -42,4 +42,13 @@ ApiClient.getSchoolsByAdminAndUf = async function(page, adm, uf) {
     }
     return response.body;
 }
+
+ApiClient.getMunicipalities = async function(state) {
+    console.log(state);
+    let response = await request({json: true, method: 'GET', url: `http://localhost:8080/state/${state}`});
+    if (response.statusCode != 200) {
+        throw new Error(`Returned status code ${response.statusCode}`);
+    }
+    return response.body;
+}
 module.exports = ApiClient;
