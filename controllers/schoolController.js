@@ -7,27 +7,25 @@ class SchoolController {}
 
 SchoolController.getHome = async(req, res) => {
     try {
-        //  console.log(`req.params.page=${req.query.page}`);
-        var schools = await apiClient.getSchools(req.query.page);
-        res.render('index', {schools: schools});
+        res.render('index');
     } catch (err) {
         console.error(err);
         res.send(500, 'Internal error');
     }
 }
 
-SchoolController.getSchoolsByName = async(req, res) => {
+SchoolController.getHowToPage = async(req, res) => {
     try {
-        var schools = await apiClient.getSchoolsByName(req.body.name);
-        res.render('index', {schools: schools});
+        res.render('howTo');
     } catch (err) {
+        console.error(err);
         res.send(500, 'Internal error');
     }
 }
 
-SchoolController.getSchoolsByAdminAndUf = async(req, res) => {
+SchoolController.getSchoolsByFilters = async(req, res) => {
     try {
-        var filteredSchools = await apiClient.getSchoolsByAdminAndUf(req.query.page, req.body.adm, req.body.uf);
+        var filteredSchools = await apiClient.getSchoolsByFilters(req.query.page, req.body.adm, req.body.uf, req.body.municipality, req.body.name);
         res.json(200, filteredSchools);
     } catch (err) {
         console.error(err);

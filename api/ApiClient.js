@@ -7,29 +7,9 @@ const querystring = require('querystring');
  */
 class ApiClient {}
 
-ApiClient.getSchools = async function(page) {
-    if (isNaN(page)) {
-        page = 1;
-    }
+ApiClient.getSchoolsByFilters = async function(page, adm, uf, municipality, name) {
 
-    let response = await request({json: true, method: 'GET', url: `http://localhost:8080/schools/${page}`});
-    if (response.statusCode != 200) {
-        throw new Error(`Returned status code ${response.statusCode}`);
-    }
-    return response.body;
-};
-
-ApiClient.getSchoolsByName = async function(name) {
-    let response = await request({json: true, method: 'GET', url: `http://localhost:8080/schools/name/${name}`});
-    if (response.statusCode != 200) {
-        throw new Error(`Returned status code ${response.statusCode}`);
-    }
-    return response.body;
-}
-
-ApiClient.getSchoolsByAdminAndUf = async function(page, adm, uf) {
-
-    var filters = querystring.stringify({adm: adm, uf: uf});
+    var filters = querystring.stringify({adm: adm, uf: uf, municipality: municipality, name: name});
 
     if (isNaN(page)) {
         page = 1;
@@ -44,7 +24,6 @@ ApiClient.getSchoolsByAdminAndUf = async function(page, adm, uf) {
 }
 
 ApiClient.getMunicipalities = async function(state) {
-    console.log(state);
     let response = await request({json: true, method: 'GET', url: `http://localhost:8080/state/${state}`});
     if (response.statusCode != 200) {
         throw new Error(`Returned status code ${response.statusCode}`);

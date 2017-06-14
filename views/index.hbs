@@ -9,7 +9,7 @@
         <div>
             <form id="filterForm">
                 <div class="form-group col-md-2">
-                    <select class="form-control mainOption" name="adm">
+                    <select class="form-control mainOption" name="adm" id="adm">
                     <option value="">TODOS OS TIPOS</option>
                     <option value="PUB">PÚBLICAS</option>
                     <option value="PRI">PRIVADAS</option>
@@ -52,13 +52,11 @@
                     <option></option>
                   </select>
                 </div>
+                <div class="form-group col-md-2 form-wrapper cf">
+                    <input name="name" type="text" placeholder="PESQUISAR POR ESCOLA" required>
+                </div>
+
                 <button type="button" onclick="filterSchools()" type="button">PESQUISAR</button>
-            </form>
-        </div>
-        <div class="form-group col-md-8">
-            <form method="post" action="/searchSchoolsByName" class="form-wrapper cf">
-                <input name="name" type="text" placeholder="PESQUISAR POR ESCOLA" required>
-                <button type="submit">Pesquisar</button>
             </form>
         </div>
     </div>
@@ -111,6 +109,8 @@
     }
 
     $(document).ready(function() {
+        $('#schoolTable').DataTable();
+
         filterSchools();
 
         $('#uf').change(function() {
@@ -128,6 +128,19 @@
                     for (municipality of municipalities) {
                         $('#municipality').append('<option>' + municipality + '</option>');
                     }
+                });
+        });
+
+        $('#adm').change(function() {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            //tratar se usuario escolher em branco
+            $.ajax({
+                    method: "POST",
+                    url: "/filters/",
+                })
+                .done(function(municipalities) {
+                    alert("Alert");
                 });
         });
     });
