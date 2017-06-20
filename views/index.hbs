@@ -70,7 +70,53 @@
                         <th>Média</th>
                     </tr>
                 </thead>
-                <tbody id="schoolList">
+                <tbody id="schoolList" class="has-drawer">
+                    <div id="schoolDrawer" class="drawer dw-xs-10 dw-sm-6 dw-md-4 fold" aria-labelledby="schoolDrawer">
+                        <div class="drawer-contents">
+                            <div class="drawer-heading">
+                                <div>
+                                    <div class="drawer-controls close-drawer">
+                                        <a href="#schoolDrawer" data-toggle="drawer" aria-foldedopen="false" aria-controls="schoolDrawer" class="btn btn-primary btn-sm"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <h3 class="school-name" id="drawer-title"></h3>
+                                <h4 class="drawer-subtitle" id="drawer-subtitle"></h4>
+                                <div class="dw-xs-8 dw-sm-4 dw-md-2">
+                                    <h5 class="school-adm" id="school-adm"></h5>
+                                </div>
+
+                            </div>
+                            <div class="drawer-body">
+                                <div class="dw-xs-10 dw-sm-6 dw-md-4">
+                                    <h5 class="school-label">RANKING GERAL</h5>
+                                    <h5 class="school-value" id="school-position"></h5>
+                                    <h5 class="school-label">MÉDIA GERAL</h5>
+                                    <h5 class="school-value" id="school-average"></h5>
+                                </div>
+                                <div class="drawer-section"></div>
+                                <div class="dw-xs-15 dw-sm-11 dw-md-9">
+                                    <h5 class="school-label">TAXA DE PARTICIPAÇÃO</h5>
+                                    <h5 class="school-value" id="participation-rate"></h5>
+
+                                    <h5 class="school-label">TAXA DE APROVAÇÃO</h5>
+                                    <h5 class="school-value" id="approval-rate"></h5>
+
+                                    <h5 class="school-label">TAXA DE REPROVAÇÃO</h5>
+                                    <h5 class="school-value" id="disapproval-rate"></h5>
+
+                                    <h5 class="school-label">TREINAMENTO DOS PROFESSORES</h5>
+                                    <h5 class="school-value" id="teacher-training"></h5>
+
+                                    <h5 class="school-label">TAXA DE PERMANÊNCIA</h5>
+                                    <h5 class="school-value" id="permanence-rate"></h5>
+
+                                    <h5 class="school-label">TAXA DE ABANDONO</h5>
+                                    <h5 class="school-value" id="abandonment-rate"></h5>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tbody>
             </table>
             <div class="clearfix"></div>
@@ -87,6 +133,25 @@
     </div>
 </div>
 <script>
+    var SCHOOLS = [];
+
+    function showSchoolDetails(position) {
+        var school = SCHOOLS[position];
+        $('#drawer-title').html(school.name);
+        $('#drawer-subtitle').html(school.uf);
+        $('#school-adm').html(school.adminDependency);
+        $('#school-position').html(school.position);
+        $('#school-average').html(roundAverage(school.average));
+        $('#participation-rate').html(school.participationRate + '%');
+        $('#abandonment-rate').html(school.abandonmentRate + '%');
+        $('#approval-rate').html(school.approvalRate + '%');
+        $('#disapproval-rate').html(school.disapprovalRate + '%');
+        $('#permanence-rate').html(school.permanenceRate);
+        $('#teacher-training').html(school.teacherTraining + '%');
+
+        $("#schoolDrawer").drawer('show');
+    }
+
     function filterSchools() {
         $('#schoolList').html('');
         $.ajax({
@@ -94,8 +159,10 @@
             url: '/filters',
             data: $("#filterForm").serialize(), // serializes the form's elements.
             success: function(filteredSchools) {
-                for (school of filteredSchools) {
-                    $('#schoolList').append('<tr><td>' + school.position + '</td><td>' + school.name + '</td><td>' + school.uf + '</td><td>' + roundAverage(school.average) + '</td></tr>');
+                SCHOOLS = filteredSchools;
+                for (var i = 0; i < SCHOOLS.length; i++) {
+                    var school = SCHOOLS[i];
+                    $('#schoolList').append('<tr onclick="showSchoolDetails(' + i + ')"><td>' + school.position + '</td><td>' + school.name + '</a></td><td> ' + school.uf + ' </td><td> ' + roundAverage(school.average) + '</td></tr>');
                 }
             }
         });
@@ -106,7 +173,7 @@
     }
 
     $(document).ready(function() {
-      $('#schoolTable').DataTable();
+        $('#schoolTable').DataTable();
         filterSchools();
 
         $('#uf').change(function() {
