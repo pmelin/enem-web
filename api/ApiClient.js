@@ -7,9 +7,9 @@ const querystring = require('querystring');
  */
 class ApiClient {}
 
-ApiClient.getSchoolsByFilters = async function(page, adm, uf, municipality, name) {
+ApiClient.getSchoolsByFilters = async function(page, adm, uf, municipality, name, sortSchl, orderSchl) {
 
-    var filters = querystring.stringify({adm: adm, uf: uf, municipality: municipality, name: name});
+    var filters = querystring.stringify({adm: adm, uf: uf, municipality: municipality, name: name, sortSchl: sortSchl, orderSchl: orderSchl});
 
     if (isNaN(page)) {
         page = 1;

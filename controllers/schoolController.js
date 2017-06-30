@@ -25,7 +25,7 @@ SchoolController.getHowToPage = async(req, res) => {
 
 SchoolController.getSchoolsByFilters = async(req, res) => {
     try {
-        var filteredSchools = await apiClient.getSchoolsByFilters(req.query.page, req.body.adm, req.body.uf, req.body.municipality, req.body.name);
+        var filteredSchools = await apiClient.getSchoolsByFilters(req.query.page, req.body.adm, req.body.uf, req.body.municipality, req.body.name, req.body.sortSchl, req.body.orderSchl);
         res.json(200, filteredSchools);
     } catch (err) {
         console.error(err);

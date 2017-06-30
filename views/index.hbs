@@ -55,19 +55,29 @@
                 <div class="form-group col-md-2 form-wrapper cf">
                     <input name="name" type="text" placeholder="PESQUISAR POR ESCOLA" id="schoolName">
                 </div>
+                <input type="hidden" name="sortSchl" id="sortHidden" />
+                <input type="hidden" name="orderSchl" id="orderHidden" />
             </form>
         </div>
     </div>
     <!-- End filter area -->
     <div class="row">
-        <div>
-            <table id="schoolTable" class="display" cellspacing="0" width="100%">
+        <div class="container">
+            <table id="schoolTable" class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Posição</th>
-                        <th>Nome</th>
-                        <th>UF</th>
-                        <th>Média</th>
+                        <th>
+                            <a href="javascript:sortSchools('POSITION')"><i id="icon-POSITION" class="fa fa-fw fa-sort-desc icon-active"></i></a>
+                        </th>
+                        <th>
+                            <a href="javascript:sortSchools('NAME')"><i id="icon-NAME" class="fa fa-fw fa-sort icon-inactive"></i></a> Nome
+                        </th>
+                        <th>
+                            <a href="javascript:sortSchools('UF')"><i id="icon-UF" class="fa fa-fw fa-sort icon-inactive"></i></a> UF
+                        </th>
+                        <th>
+                            <a href="javascript:sortSchools('AVERAGE')"><i id="icon-AVERAGE" class="fa fa-fw fa-sort icon-inactive"></i></a> Média
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="schoolList" class="has-drawer">
@@ -172,8 +182,33 @@
         return average.toFixed(2);
     }
 
+    function sortSchools(sortElement) {
+
+        var thisIcon = $('#icon-' + sortElement);
+        var arrowClass = null;
+        var order = null;
+
+        if (thisIcon.hasClass('fa-sort-asc') || thisIcon.hasClass('fa-sort')) {
+            arrowClass = 'fa-sort-desc';
+            order = 'ASC';
+        } else {
+            arrowClass = 'fa-sort-asc';
+            order = 'DESC';
+        }
+        // resets ths
+        $("th").find("a").find("i").removeClass();
+        $("th").find("a").find("i").addClass('fa fa-fw fa-sort icon-inactive');
+
+        thisIcon.removeClass();
+        thisIcon.addClass('fa fa-fw icon-active ' + arrowClass);
+
+        $('#sortHidden').val(sortElement);
+        $('#orderHidden').val(order);
+        filterSchools();
+    }
+
     $(document).ready(function() {
-        $('#schoolTable').DataTable();
+        //$('#schoolTable').DataTable();
         filterSchools();
 
         $('#uf').change(function() {
@@ -195,14 +230,20 @@
         });
 
         $('#adm').change(function() {
+            $('#sortHidden').val('');
+            $('#orderHidden').val('');
             filterSchools();
         });
 
         $('#municipality').change(function() {
+            $('#sortHidden').val('');
+            $('#orderHidden').val('');
             filterSchools();
         });
 
         $('#schoolName').change(function() {
+            $('#sortHidden').val('');
+            $('#orderHidden').val('');
             filterSchools();
         });
     });

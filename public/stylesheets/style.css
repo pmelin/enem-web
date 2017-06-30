@@ -4,7 +4,21 @@ body {
 }
 
 a {
-    color: #00B7FF;
+    color: black;
+}
+
+a:hover, a:link, a:visited, a:active {
+    text-decoration: none;
+}
+
+/* Sort */
+
+.icon-inactive {
+    color: #d2caca !important;
+}
+
+.icon-active {
+    color: #605252 !important;
 }
 
 
@@ -110,8 +124,8 @@ a {
 }
 
 .close-drawer {
-  background-color: none !important;
-  color: #444;
-  margin-right: 1px;
-  margin-top: 10px;
+    background-color: none !important;
+    color: #444;
+    margin-right: 1px;
+    margin-top: 10px;
 }
